@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, act, screen, waitFor } from '@testing-library/react'
-import fetchMock, { enableFetchMocks } from 'jest-fetch-mock'
 import { mocked } from 'jest-mock'
 import { useProduct } from 'vtex.product-context'
 
@@ -10,50 +9,45 @@ const renderComponent = () => {
   return render(<ProductRecipe />)
 }
 
-enableFetchMocks()
 const mockedUseProduct = mocked(useProduct)
 
-// const mockFetch = (mockDataProps: { recipes: Recipe[] | null }) =>
-//   jest.fn(() =>
-//     Promise.resolve({
-//       json: () => Promise.resolve(mockDataProps),
-//     } as Response)
-//   )
+const mockFetch = (mockDataProps: { recipes: Recipe[] | null }) =>
+  jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(mockDataProps),
+    } as Response)
+  )
 
 describe('first test', () => {
-  beforeEach(() => {
-    fetchMock.mockIf(
-      /.*\/_v\/searchRecipes\/:[0-9]*/,
-      JSON.stringify({ recipes: null })
-    )
-
-    fetchMock.mockIf(
-      /.*\/_v\/searchRecipes\/:undefined/,
-      JSON.stringify({
-        recipes: [
-          {
-            id: 'string',
-            skuRecipe: 2,
-            postTitle: 'string',
-            postContent: 'string',
-            postDate: 'string',
-          },
-        ],
-      })
-    )
-  })
-
   afterEach(() => {
     jest.resetAllMocks()
   })
 
   it('test one', async () => {
-    // global.fetch = mockFetch({
-    //   recipes: null,
-    // })
-
     mockedUseProduct.mockReturnValue({ product: { productId: 123 } } as any)
+    global.fetch = mockFetch({
+      recipes: [
+        {
+          id: 'string',
+          skuRecipe: 2,
+          postTitle: 'string',
+          postContent: 'string',
+          postDate: 'string',
+        },
+      ],
+    })
 
+    await act(async () => {
+      renderComponent()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Posts for this product:')).toBeInTheDocument()
+    })
+  })
+
+  it('test two', async () => {
+    mockedUseProduct.mockReturnValue({ product: null } as any)
     await act(async () => {
       renderComponent()
     })
@@ -63,27 +57,19 @@ describe('first test', () => {
     })
   })
 
-  // it('test two', async () => {
-  //   // global.fetch = mockFetch({
-  //   //   recipes: [
-  //   //     {
-  //   //       id: 'string',
-  //   //       skuRecipe: 2,
-  //   //       postTitle: 'string',
-  //   //       postContent: 'string',
-  //   //       postDate: 'string',
-  //   //     },
-  //   //   ],
-  //   // })
+  it('test three', async () => {
+    mockedUseProduct.mockReturnValue({ product: { productId: 123 } } as any)
 
-  //   mockedUseProduct.mockReturnValue({ product: null } as any)
+    global.fetch = mockFetch({
+      recipes: [],
+    })
 
-  //   await act(async () => {
-  //     renderComponent()
-  //   })
+    await act(async () => {
+      renderComponent()
+    })
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText('Posts for this product:')).toBeInTheDocument()
-  //   })
-  // })
+    await waitFor(() => {
+      expect(screen.getByText('No posts for this product.')).toBeInTheDocument()
+    })
+  })
 })

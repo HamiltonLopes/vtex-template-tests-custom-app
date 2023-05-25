@@ -20,7 +20,6 @@
     "@types/react": "^16.9.31",
     "@vtex/test-tools": "^3.4.3",
     "@vtex/tsconfig": "^0.6.0",
-    "jest-fetch-mock": "^3.0.3",
     "typescript": "3.9.7",
     "vtex.product-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-context@0.10.0/public/@types/vtex.product-context",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.4/public/@types/vtex.render-runtime"

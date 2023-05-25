@@ -10,14 +10,20 @@ export const useRecipes = (): {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `https://techdemo2905--acctglobal.myvtex.com/_v/searchRecipes/:${productInfo?.product?.productId}`
-      ).then((res) => res.json())
+        `/_v/searchRecipes/:${productInfo?.product?.productId}`
+      ).then((res) => {
+        const resposta = res.json()
+
+        return resposta
+      })
 
       setData(response)
     }
 
-    fetchData()
-  }, [productInfo?.product?.productId])
+    if (productInfo?.product?.productId) {
+      fetchData()
+    }
+  }, [])
 
   return {
     getRecipes: data?.recipes ?? null,

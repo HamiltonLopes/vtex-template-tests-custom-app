@@ -4,7 +4,6 @@ import { useRecipes } from '../hooks/useProductRecipes'
 
 const ProductRecipe = () => {
   const { getRecipes } = useRecipes()
-
   const [recipes, setRecipes] = useState<Recipe[] | null>()
 
   useEffect(() => {
