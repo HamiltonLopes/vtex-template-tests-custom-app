@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, act, screen, waitFor } from '@testing-library/react'
+import { render, act, screen } from '@testing-library/react'
 import { mocked } from 'jest-mock'
 import { useProduct } from 'vtex.product-context'
 
@@ -41,9 +41,7 @@ describe('first test', () => {
       renderComponent()
     })
 
-    await waitFor(() => {
-      expect(screen.getByText('Posts for this product:')).toBeInTheDocument()
-    })
+    expect(screen.getByText('Posts for this product:')).toBeInTheDocument()
   })
 
   it('test two', async () => {
@@ -52,9 +50,7 @@ describe('first test', () => {
       renderComponent()
     })
 
-    await waitFor(() => {
-      expect(screen.getByText('No products found.')).toBeInTheDocument()
-    })
+    expect(screen.getByText('No products found.')).toBeInTheDocument()
   })
 
   it('test three', async () => {
@@ -68,8 +64,6 @@ describe('first test', () => {
       renderComponent()
     })
 
-    await waitFor(() => {
-      expect(screen.getByText('No posts for this product.')).toBeInTheDocument()
-    })
+    expect(screen.getByText('No posts for this product.')).toBeInTheDocument()
   })
 })

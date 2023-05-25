@@ -11,11 +11,7 @@ export const useRecipes = (): {
     const fetchData = async () => {
       const response = await fetch(
         `/_v/searchRecipes/:${productInfo?.product?.productId}`
-      ).then((res) => {
-        const resposta = res.json()
-
-        return resposta
-      })
+      ).then((res) => res.json())
 
       setData(response)
     }
