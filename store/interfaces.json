@@ -1,5 +1,5 @@
 {
-  "example-component": {
-    "component": "Example"
+  "product-recipe": {
+    "component": "ProductRecipe"
   }
 }
