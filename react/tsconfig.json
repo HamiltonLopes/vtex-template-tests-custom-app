@@ -8,5 +8,10 @@
     "lib": ["dom"],
     "jsx": "react"
   },
-  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"]
+  "include": [
+    "./typings/*.d.ts",
+    "./**/*.tsx",
+    "./**/*.ts",
+    "__tests__/components/useProductRecipes.test.js"
+  ]
 }

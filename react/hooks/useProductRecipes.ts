@@ -2,18 +2,19 @@ import { useState, useEffect } from 'react'
 import { useProduct } from 'vtex.product-context'
 
 export const useRecipes = (): {
-  getRecipes: Recipe[] | null
+  recipes: Recipe[] | null
+  skuId: string | null
 } => {
   const productInfo = useProduct()
-  const [data, setData] = useState<{ recipes: Recipe[] } | null>()
+  const [recipes, setRecipes] = useState<Recipe[] | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `/_v/searchRecipes/:${productInfo?.product?.productId}`
+        `/_v/searchRecipes/${productInfo?.selectedItem?.itemId}`
       ).then((res) => res.json())
 
-      setData(response)
+      setRecipes(response)
     }
 
     if (productInfo?.product?.productId) {
@@ -22,6 +23,7 @@ export const useRecipes = (): {
   }, [])
 
   return {
-    getRecipes: data?.recipes ?? null,
+    recipes,
+    skuId: productInfo?.product?.productId ?? null,
   }
 }

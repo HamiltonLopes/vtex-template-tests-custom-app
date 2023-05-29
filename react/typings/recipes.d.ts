@@ -3,5 +3,5 @@ interface Recipe {
   skuRecipe: number
   postTitle: string
   postContent: string
-  postDate: string
+  createdIn: string
 }
